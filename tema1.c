@@ -1,59 +1,60 @@
+// includere librarii
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 
+// declarare lista dublu inlantuita
 typedef struct node {
-    int elem;
-    double data;
-    int flag;
-    struct node *next;
-    struct node *prev;
+    int elem; // timestamp
+    double data; // valoare
+    int flag; // marcaj (stergere noduri)
+    struct node *next; // nod urmator
+    struct node *prev; // nod precedent
 } node, *pnode ;
 
-void insert_at_end(pnode *pheadNode, int elem, double data) {
-  pnode currentNode;
 
-  if (NULL == pheadNode)
-  {
-    return;
-  }
-  
-  currentNode = malloc(sizeof *currentNode);
-  pnode i = *pheadNode;
-  currentNode->elem = elem;
-  currentNode->data = data;
-  currentNode->flag = 0 ;
-  currentNode->next = NULL;
-  currentNode->prev = NULL;
+// functie inserare (la final)
+void inserare(pnode *head, int elem, double data) {
+    pnode nod; // declarare
 
-  if (*pheadNode == NULL) {
-    *pheadNode = currentNode;
-    return;
-  }
+    nod = malloc(sizeof(node)); // alocare
+    nod->elem = elem;
+    nod->data = data;
+    nod->flag = 0 ;
+    nod->next = NULL;
+    nod->prev = NULL;
 
-  while (i->next != NULL) { /* Go to the end of the list */
-    i = i->next;
-  }
+    if (*head == NULL) { // verificare lista goala
+        *head = nod;
+        return;
+    }
+    
+    pnode position = *head;
+    while (position->next != NULL) { // parcurgere lista
+        position = position->next;
+    }
 
-  i->next = currentNode;
-  currentNode->prev = i;
+    position->next = nod; // adaugare la coada
+    nod->prev = position;
 }
 
-void deleteNode(pnode *head_ref, pnode del)
-{
-    if (del->next != NULL)
-        del->next->prev = del->prev;
+// functie stergere noduri
+void deleteNode(pnode delete) {   
+    // modificare legaturi
+    if (delete->next != NULL)
+        delete->next->prev = delete->prev;
  
-    if (del->prev != NULL)
-        del->prev->next = del->next;
+    if (delete->prev != NULL)
+        delete->prev->next = delete->next;
  
-    free(del);
-    return;
+    free(delete);
+
 }
 
-void printList(pnode node) 
-{
+// afisare lista
+void printList(pnode node) {   
+    // parcurgere
     while (node != NULL) {
         printf("%d %.2lf\n", node->elem, node->data);
         node = node->next;
@@ -61,53 +62,59 @@ void printList(pnode node)
    
 }
 
+// free lista
 void free_list(pnode node) {
-  while (node != NULL) {
-    pnode next = node->next;
-    free(node);
-    node = next;
-  }
+    // parcurgere
+    while (node != NULL) {
+        pnode next = node->next; // retinere nod
+        free(node); // eliberare
+        node = next; // pas urmator
+    }
+
 }
 
+// functie sortare lista (fereastra 5 noduri)
 double bubbleSort(pnode start)
-{   
+{   // creare lista auxiliara
     pnode auxiliar = NULL ;
     for (int i = 0 ; i < 5 ; i++){
-     insert_at_end(&auxiliar,0,start->data);
+     inserare(&auxiliar,0,start->data);
      start = start->next;
     }
     
-    int swapped;
-    pnode ptr1;
-    pnode lptr = auxiliar->next->next->next->next;
+    // sortare lista
+    int flag;
+    pnode first;
+    pnode last = auxiliar->next->next->next->next;
 
     do
-    {
-        swapped = 0;
-        ptr1 = auxiliar;
+    {   flag = 0;
+        first = auxiliar;
         double aux;
   
-        while (ptr1 != lptr)
+        while (first != last)
         {
-            if (ptr1->data > ptr1->next->data)
-            {   aux = ptr1->data;
-                ptr1->data = ptr1->next->data;
-                ptr1->next->data = aux;
-                swapped = 1;
+            if (first->data > first->next->data)
+            {   aux = first->data;
+                first->data = first->next->data;
+                first->next->data = aux;
+                flag = 1;
             }
-            ptr1 = ptr1->next;
+            first = first->next;
         }
-        lptr = ptr1;
+        last = first;
     }
-    while (swapped);
-
+    while (flag);
+    
+    // extragere element mijloc
     double store = auxiliar->next->next->data;
     free_list(auxiliar);
-
     return (double)store;
 }
 
+// functie medie aritmetica (fereastra 5 noduri)
 double medie_aritmetica(pnode start) {
+    // transmitere pointer + parcurgere valori
     double s = 0 ;
     for(int i = 0 ; i < 5 ; i++){
         s = s + start->data;
@@ -117,45 +124,33 @@ double medie_aritmetica(pnode start) {
     return (double)(s/5);
 }
 
+// functie inserare (dupa un nod)
 void insertAfter(pnode prev_node, int elem, double data) {
-
-    // check if previous node is NULL
-    if (prev_node == NULL) {
-        printf("previous node cannot be NULL");
-        return;
-    }
-
-    // allocate memory for newNode
-    pnode newNode = (pnode)malloc(sizeof(node));
-
-    // assign data to newNode
-    newNode->flag = 0;
-    newNode->elem = elem;
-    newNode->data = data;
-
-    // set next of newNode to next of prev node
-    newNode->next = prev_node->next;
-
-    // set next of prev node to newNode
-    prev_node->next = newNode;
-
-    // set prev of newNode to the previous node
-    newNode->prev = prev_node;
-
-    // set prev of newNode's next to newNode
-    if (newNode->next != NULL)
-        newNode->next->prev = newNode;
+    // alocare nod
+    pnode nod = (pnode)malloc(sizeof(node));
+    nod->flag = 0;
+    nod->elem = elem;
+    nod->data = data;
+    
+    // modificare legaturi
+    nod->next = prev_node->next;
+    prev_node->next = nod;
+    nod->prev = prev_node;
+    if (nod->next != NULL)
+    nod->next->prev = nod;
 }
 
-void uniform(pnode start) { // incearca si cu modul
+// functie uniformizare date
+void uniform(pnode start) {
+    // (tehnic ar fi modul) , am lasat asa pentru simplitate
     if((start->next->elem - start->elem) >= 100 && (start->next->elem - start->elem) <= 1000) {
         start->next->elem = (start->next->elem + start->elem)/2;
         start->next->data = (double)((start->next->data + start->data)/2);
     }
 }
 
+// functie completare date
 void completare(pnode start) {
-    
     int tmpR;
     tmpR = start->next->elem;
     
@@ -182,10 +177,8 @@ void completare(pnode start) {
     int timestamp = start->elem;
     left = start->elem ;
     right = start->next->elem;
-    // C = (double)(timestamp - left)/(right - left);
     double final_data;
 
-    
     while(timestamp + 200 < tmpR) {
     timestamp = timestamp + 200; 
     C = (double)(timestamp - left)/(right - left);
@@ -196,6 +189,7 @@ void completare(pnode start) {
 
 }
 
+// afisare nr noduri
 int printNumber(pnode node) 
 {   int numar = 0 ;
     while (node != NULL) {
@@ -205,40 +199,36 @@ int printNumber(pnode node)
     return numar;  
 }
 
-void actualizare(pnode *pheadNode, pnode copiere) {
-  pnode currentNode;
+// functie copiere lista
+void actualizare(pnode *head, pnode copiere) {
+  pnode nod;
+  
+  // alocare nod
+  nod = malloc(sizeof(node));
+  nod->elem = copiere->elem;
+  nod->data = copiere->data;
+  nod->flag = copiere->flag ;
+  nod->next = NULL;
+  nod->prev = NULL;
 
-  if (NULL == pheadNode)
-  {
+  if (*head == NULL) { // verificare lista goala
+    *head = nod;
     return;
   }
   
-  currentNode = malloc(sizeof *currentNode);
-  pnode i = *pheadNode;
-  currentNode->elem = copiere->elem;
-  currentNode->data = copiere->data;
-  currentNode->flag = copiere->flag ;
-  currentNode->next = NULL;
-  currentNode->prev = NULL;
-
-  if (*pheadNode == NULL) {
-    *pheadNode = currentNode;
-    return;
+  pnode position = *head;
+  while (position->next != NULL) { // parcurgere lista
+    position = position->next;
   }
-
-  while (i->next != NULL) { /* Go to the end of the list */
-    i = i->next;
-  }
-
-  i->next = currentNode;
-  currentNode->prev = i;
+  // adaugare in coada
+  position->next = nod;
+  nod->prev = position;
 }
 
+// functie calculare average
 double average(pnode node) {
-    
     double medie = 0;
 
-    // printf("\nTraversal in forward direction \n");
     for(int i = 0 ; i < 5 ; i++) {
         medie = medie + node->data; 
         node = node->next;
@@ -247,10 +237,11 @@ double average(pnode node) {
     return (double)(medie/5);
 }
 
+// functie calculare deviatie
 double deviation(pnode node) {
-
       double error = 0 ;
       double x = average(node);
+
       for(int i = 0 ; i < 5 ; i++) {
         error = error + (node->data - x) * (node->data - x);
         node = node->next; 
@@ -260,6 +251,8 @@ double deviation(pnode node) {
 
 }
 
+
+// de aici am ramas
 void statistica(pnode node, int interval) {
     int swapped;
     pnode ptr1;
@@ -324,29 +317,25 @@ void statistica(pnode node, int interval) {
 
 int main(int argc, char** argv) {
     
-    // citire 
+    // declarare lista principala
     pnode head = NULL ;
+
+    //citire
     int n;
-    scanf("%d", &n);
     int x_elem;
     double y_data;
+    scanf("%d", &n);
     for(int i = 0 ; i < n ; i++) {
     scanf("%d %lf", &x_elem, &y_data);
-    insert_at_end(&head,x_elem,y_data);
+    inserare(&head,x_elem,y_data);
     }
 
     
-    pnode position = head;
-    // pnode lista_sort = NULL ;
-    // pnode lista_medie = NULL ;
-    // for(int i = 0 ; i < n - 4; i++) {
-    // insert_at_end(&lista_sort, position->next->next->elem,bubbleSort(position));
-    // insert_at_end(&lista_medie, position->next->next->elem,medie_aritmetica(position));
-    // position=position->next;
-    // }
+    pnode position = head; // parcurgere
     
     double a,d; // declarare pt task1
     
+    // declarare liste auxiliare
     pnode lista_sort = NULL ;
     pnode lista_medie = NULL ; 
     pnode indice;
@@ -375,7 +364,7 @@ int main(int argc, char** argv) {
         for( int i = 0 ; i < nr_total - 2 ; i++ ) {
             temp = position->next;
             if(position->flag == 1) 
-            deleteNode(&head,position);
+            deleteNode(position);
             position = temp ;
         }
         
@@ -392,7 +381,7 @@ int main(int argc, char** argv) {
         position = head ;
         
         for(int i = 0 ; i < printNumber(head) - 4 ; i++) {
-            insert_at_end(&lista_sort, position->next->next->elem,bubbleSort(position));
+            inserare(&lista_sort, position->next->next->elem,bubbleSort(position));
             position = position->next;
         }
 
@@ -419,7 +408,7 @@ int main(int argc, char** argv) {
 
 
          for(int i = 0 ; i < printNumber(head) - 4; i++) {
-            insert_at_end(&lista_medie, position->next->next->elem,medie_aritmetica(position));
+            inserare(&lista_medie, position->next->next->elem,medie_aritmetica(position));
             position=position->next;
             }
         
@@ -498,5 +487,6 @@ int main(int argc, char** argv) {
     free_list(lista_sort);
     free_list(lista_medie);
     free_list(head);
+    
     return 0;
 }
