@@ -201,29 +201,29 @@ int printNumber(pnode node)
 
 // functie copiere lista
 void actualizare(pnode *head, pnode copiere) {
-  pnode nod;
-  
-  // alocare nod
-  nod = malloc(sizeof(node));
-  nod->elem = copiere->elem;
-  nod->data = copiere->data;
-  nod->flag = copiere->flag ;
-  nod->next = NULL;
-  nod->prev = NULL;
+    pnode nod;
+    
+    // alocare nod
+    nod = malloc(sizeof(node));
+    nod->elem = copiere->elem;
+    nod->data = copiere->data;
+    nod->flag = copiere->flag ;
+    nod->next = NULL;
+    nod->prev = NULL;
 
-  if (*head == NULL) { // verificare lista goala
-    *head = nod;
-    return;
-  }
-  
-  pnode position = *head;
-  while (position->next != NULL) { // parcurgere lista
-    position = position->next;
-  }
-  // adaugare in coada
-  position->next = nod;
-  nod->prev = position;
-}
+    if (*head == NULL) { // verificare lista goala
+        *head = nod;
+        return;
+    }
+    
+    pnode position = *head;
+    while (position->next != NULL) { // parcurgere lista
+        position = position->next;
+    }
+    // adaugare in coada
+    position->next = nod;
+    nod->prev = position;
+    }
 
 // functie calculare average
 double average(pnode node) {
@@ -254,34 +254,36 @@ double deviation(pnode node) {
 
 // de aici am ramas
 void statistica(pnode node, int interval) {
-    int swapped;
-    pnode ptr1;
-    pnode lptr = NULL;
-
+    int auxiliar;
+    pnode first;
+    pnode last = NULL;
+    
+    // sortare lista
     do
     {
-        swapped = 0;
-        ptr1 = node;
+        auxiliar = 0;
+        first = node;
         double aux;
   
-        while (ptr1->next != lptr)
+        while (first->next != last)
         {
-            if (ptr1->data > ptr1->next->data)
-            {   aux = ptr1->data;
-                ptr1->data = ptr1->next->data;
-                ptr1->next->data = aux;
-                swapped = 1;
+            if (first->data > first->next->data)
+            {   aux = first->data;
+                first->data = first->next->data;
+                first->next->data = aux;
+                auxiliar = 1;
             }
-            ptr1 = ptr1->next;
+            first = first->next;
         }
-        lptr = ptr1;
+        last = first;
     }
-    while (swapped);
+    while (auxiliar);
     
+    // formare intervale + completare
     int contor = 0 ;
     double start = floor(node->data);
     double end = floor(node->data + interval);
-
+   
     while ( node != NULL) 
     {   
        
@@ -304,14 +306,10 @@ void statistica(pnode node, int interval) {
 
          }
 
-    if( node == NULL ) 
-    printf("[%d, %d] %d\n", (int)floor(start) , (int)floor(end) , contor);
+        if( node == NULL ) 
+          printf("[%d, %d] %d\n", (int)floor(start) , (int)floor(end) , contor);
     
-
-        
-
     }
-
 
 }
 
@@ -468,21 +466,6 @@ int main(int argc, char** argv) {
      }
     
     }
-
-
-
-    // free_list(head);
-    // head = NULL ;
-
-    // pnode indice = lista_sort;
-    // for(int i = 0 ; i < printNumber(lista_sort) ; i++) {
-    // actualizare(&head,indice);
-    // indice = indice->next;
-    // }
-    // printList(head);
-
-    
-
 
     free_list(lista_sort);
     free_list(lista_medie);
