@@ -51,7 +51,7 @@ codul ASCII, apoi acest numar a fost transmis ca si parametru
 intr o functie ce sorteaza si apoi numara cate noduri au datele
 apartinand intervalului.
 
-![poza]("CODUL MEU.png")
+![poza](CODUL MEU.png)
 
 # implementarea codului
 -pentru implementarea codului, am folosit VScode pe Linux pentru
