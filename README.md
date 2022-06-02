@@ -51,7 +51,11 @@ codul ASCII, apoi acest numar a fost transmis ca si parametru
 intr o functie ce sorteaza si apoi numara cate noduri au datele
 apartinand intervalului.
 
-![poza](poza.png)
+<img
+  src="poza.png"
+  alt="Alt text"
+  title="Optional title"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
 
 # implementarea codului
 -pentru implementarea codului, am folosit VScode pe Linux pentru
