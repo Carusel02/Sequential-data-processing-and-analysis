@@ -1,64 +1,61 @@
-# Tema1
-Readme tema1 # Tema1
-Timp de lucru : 12-15h
-Explicatie cerinte :
--functii principale
-ca functii principale am folosit adaugarea in lista, stergerea
-unui nod din lista, copierea unei liste in alta lista, afisarea
-unei liste, eliberarea nodurilor unei liste
--task1(e1)
-ideea principala care sta la baza cerintei a fost folosirea
-unui "flag" pentru a marca nodurile ce trebuie sterse.
-astfel, lista va fi parcursa inca o data si se vor sterge
-nodurile care au un flag activ(1).(se putea folosi de asemenea
-si modificarea timestampului cu o valoare negativa pentru a
-evidentia acest procedeu)
-de asemenea, am implementat 2 functii care calculeaza deviatia si
-media.
--task2(e2)
-la task2 un mod simplu de rezolvare ar fi adaugarea ferestei de
-5 noduri intr o lista auxiliara, apoi sortarea acesteia.
-valoarea din mijloc este apoi adaugata, iar pentru inlantuirea
-comenzilor a trebuit sa dau free la lista anterioara si sa o 
-actualizez cu noua lista formata din aceste valori extrase.
--task3(e3)
-similar cu task2, acesta a avut nevoie de o functie care
-calculeaza media pe o fereastra de 5 noduri si o adauga intr o
-noua lista.
-la final, vechea lista este actualizata.
--task4(u)
-uniformizarea frecventei a constat intr o operatie simpla care 
-parcurge lista si modifica nodurile care respecta cerintele.
-folosind o functie de uniformizare, am modificat lista conform
-cerintei.
--task5(c)
-completarea unui interval consta in adaugarea de elemente dupa
-un nod.
-timestampul nodului se modifica cu +200 pana la ultima valoare
-iar data fiecarui nod este influentata de un parametru C.
-sumele left si right sunt niste medii ponderate(numere constante
-pentru un interval in care se adauga noduri) care iau in calcul
-primii 3 termeni si ultimii 3 termeni de unde se face adaugarea.
-acestia sunt inmultiti cu niste coeficienti, cei mai importanti(mari)
-coeficienti fiind inmultiti cu cei mai apropiati termeni fata de
-intervalul in care se adauga.
-pentru acest task, am folosit o singura functie care calculeaza
-fiecare informatie a unui nod si il adauga dupa un nod printr o
-functie auxiliara.
--task6(st)
-partea cu extrasul din argument s a facut folosind operatii cu 
-codul ASCII, apoi acest numar a fost transmis ca si parametru 
-intr o functie ce sorteaza si apoi numara cate noduri au datele
-apartinand intervalului.
+# Sequential data processing and analysis
+## Solution method
+`main functions`
+- as main functions we used adding to the list, deleting
+to a node in the list, copying a list to another list, displaying
+of a list, freeing the nodes of a list
 
-<img
-  src="poza.png"
-  alt="Alt text"
-  title="Optional title"
-  style="display: inline-block; margin: 0 auto; max-width: 100px">
+`task1` (e1)
+- the main idea underlying the requirement was the use
+a "flag" to mark the nodes to be deleted.
+- thus, the list will be scanned once more and they will be deleted
+the nodes that have an active flag(1).(could also be used
+and changing the timestamp with a negative value for a
+highlight this procedure)
+- also, we implemented 2 functions that calculate the deviation and
+mediate.
 
-# implementarea codului
--pentru implementarea codului, am folosit VScode pe Linux pentru
-a putea folosi utilitarul valgrind(pentru memory leak uri) si gdb
-(pentru segmentation fault uri). (cea mai grea parte nu a fost cerinta
-si scrierea codului, ci partea de debugging xD)
+`task2` (e2)
+- for task2, a simple way to solve it would be to add the window of
+5 nodes in an auxiliary list, then sorting it.
+- the value in the middle is then added, and for chaining
+orders, I had to give free to the previous list and it
+update with the new list formed from these extracted values.
+
+`task3` (e3)
+- similar to task2, it needed a function thatcalculate the average on a window of 5 nodes and add it to a the new list.
+- at the end, the old list is updated.
+
+`task4` (u)
+- the equalization of the frequency consisted of a simple operation which
+go through the list and modify the nodes that meet the requirements.
+- using a smoothing function, I modified the list accordingly
+requirement.
+
+`task5` (c)
+- completing an interval consists of adding elements after
+a knot.
+- the timestamp of the node changes by +200 to the last value
+and the date of each node is influenced by a parameter C.
+- the left and right sums are weighted averages (constant numbers
+for an interval in which nodes are added) that take into account
+the first 3 terms and the last 3 terms from where the addition is made.
+- they are multiplied by some coefficients, the most important (large)
+coefficients being multiplied by the terms closest to
+the interval in which it is added.
+- for this task, I used a single function that calculates
+each information of a node and adds it after a node through a
+auxiliary function.
+
+`task6` (st)
+- the part with the extract from the argument was made using operations with
+the ASCII code, then this number was passed as a parameter
+in a function that sorts and then counts how many nodes the data has
+belonging to the interval.
+
+## Implementation
+- to implement the code, I used VScode on Linux
+to be able to use the utility valgrind (for memory leaks) and gdb
+(for segmentation faults).
+- *the hardest part wasn't the requirement
+and writing the code, but the debugging part xD*
