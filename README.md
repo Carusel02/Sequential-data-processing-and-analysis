@@ -1,7 +1,7 @@
 # Sequential data processing and analysis
 ## Solution method
 `main functions`
-- as main functions we used adding to the list, deleting
+- as main functions I used adding to the list, deleting
 to a node in the list, copying a list to another list, displaying
 of a list, freeing the nodes of a list
 
@@ -12,7 +12,7 @@ a "flag" to mark the nodes to be deleted.
 the nodes that have an active flag(1).(could also be used
 and changing the timestamp with a negative value for a
 highlight this procedure)
-- also, we implemented 2 functions that calculate the deviation and
+- also, I implemented 2 functions that calculate the deviation and
 mediate.
 
 `task2` (e2)
